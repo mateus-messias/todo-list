@@ -106,6 +106,8 @@ body{
   margin-top: 20px;
   margin-right: 5px;
   padding: 0 20px 10px 25px;
+  display: flex;
+  flex-direction: column;
 }
 .task-box.overflow{
   overflow-y: auto;
@@ -124,10 +126,10 @@ body{
 }
 .task-box .task{
   list-style: none;
-  font-size: 17px;
+  font-size: 20px;
   margin-bottom: 18px;
   padding-bottom: 16px;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   border-bottom: 1px solid #ccc;
 }
 .task-box .task:last-child{
@@ -135,19 +137,38 @@ body{
   border-bottom: 0;
   padding-bottom: 0;
 }
-.task-box .task label{
+.task-name{
   display: flex;
-  align-items: flex-start;
+  align-items: center;  
 }
-.task-box label input{
-  margin-top: 7px;
-  accent-color: #1e293b;
+.task-name p{
+  margin-left: 10px;  
 }
-.task-box label p{
-  user-select: none;
-  margin-left: 12px;
-  word-wrap: break-word;
+.checked{
+  text-decoration: line-through;
 }
-
-
-
+.btn-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-btn, .delete-btn{
+  background-color: transparent;
+  border: none;
+  margin: auto .2rem;
+  font-size: 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+.edit-btn{
+  color: #6be675;
+}
+.edit-btn:hover{
+  color: #25bb32;
+}
+.delete-btn{
+  color: #e66b6b;
+}
+.delete-btn:hover{
+  color: #bb2525;;
+}

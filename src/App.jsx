@@ -5,10 +5,11 @@ function App() {
   const getLocalStorage = () => {
     let list = localStorage.getItem('list')
     if(list){
-      return JSON.parse(localStorage.getItem('list'))
+      list  = JSON.parse(localStorage.getItem('list'))
     } else {
-      return []
+      list = []
     }
+    return list
   }
 
   const [task, setTask] = useState('')
@@ -21,6 +22,7 @@ function App() {
     const newTask = {
       id: new Date().getTime().toString(),
       title: task,
+      completed: false
     }
     if(!task){
       alert('vazio')
@@ -32,13 +34,15 @@ function App() {
         }
         return item
       }))
-      setName('')
+      setTask('')
       setIsEditing(false)
       setEditID(null)
+    } else {
+      setList([...list, newTask])
+      setTask('')      
     }
-    setList([...list, newTask])
-    setTask('')
   }
+ 
 
   const editTask = (id) => {
     const taskEdit = list.find((task) => task.id === id)
@@ -53,6 +57,18 @@ function App() {
 
   const clearList = () => {
     setList([])
+  }
+
+  const updateStatus = (id) => {
+    const newItems = list.map((item) => {
+      if(item.id === id){
+        const newItem = {...item, completed: !item.completed}
+        return newItem
+      }
+      return item
+    }) 
+    setList(newItems)
+   
   }
 
   useEffect(() => {
@@ -72,21 +88,18 @@ function App() {
         />
         {/* <button type="submit">add</button> */}
       </form>
-      <div className="controls">
-        <div className="filters">
-          <span className='active'>Todas</span>
-          <span className='active'>Pendente</span>
-          <span className='active'>Completa</span>
-        </div>
+      <div className="controls">        
         <button className='clear-btn' onClick={clearList}>Limpar</button>
       </div>
       <ul className='task-box'>
         {list.map((item) => {
-          const {id, title} = item
+          const {id, title, completed} = item
           return (
             <li className='task' key={id}>
-              <input type="checkbox"/>
-              <p>{title}</p>
+              <div className='task-name'>
+                <input type="checkbox" checked={completed} onChange={() => updateStatus(id)}/>
+                <p className={completed && 'checked'}>{title}</p>
+              </div>
               <div className="btn-container">
                 <button className='edit-btn' onClick={() => editTask(id)}><FaEdit/></button>
                 <button className='delete-btn' onClick={() => deleteTask(id)}><FaTrash/></button>
